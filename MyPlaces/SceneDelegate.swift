@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  MyPlaces
+//  UIPageView
 //
-//  Created by Виталий Липовецкий on 13.06.2020.
+//  Created by Виталий Липовецкий on 12.06.2020.
 //  Copyright © 2020 Виталий Липовецкий. All rights reserved.
 //
 
@@ -50,4 +50,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
+
 
