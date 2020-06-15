@@ -19,6 +19,8 @@ class MapViewController: UIViewController {
     // на устройсве должны быть включены соответствующие слыжбы геолокации
     let locationManager = CLLocationManager()
     
+    let regionInMeters = 10_000.00
+    
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
@@ -26,6 +28,18 @@ class MapViewController: UIViewController {
         mapView.delegate = self
         setupPlacemark()
         checkLocationServices()
+    }
+    
+    @IBAction func centerViewInUserLocation() {
+        
+        // пытаемся рпределить координаты пользовтеля
+        if let location = locationManager.location?.coordinate {
+            let region = MKCoordinateRegion(center: location,
+                                            latitudinalMeters: regionInMeters,
+                                            longitudinalMeters: regionInMeters)
+            mapView.setRegion(region, animated: true)
+        }
+        
     }
     
     @IBAction func closeVC(_ sender: Any) {
@@ -71,6 +85,11 @@ class MapViewController: UIViewController {
         } else {
             // надо вызвать алерт контроллер с рекомендацией и инструкцией по включению служб геолокации
             // Show alert controller
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {     // откладываем вызов алерта на 1 сек
+                self.showAlert(
+                    title: "Location Services are Disabled",
+                    message: "To enable it go: Settings -> Privacy -> Location Services and turn On")
+            }
         }
     
     }
@@ -93,6 +112,11 @@ class MapViewController: UIViewController {
             break
         case .denied:                // отказано использовать службы геолокации
             // Show alert controller
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showAlert(
+                    title: "Your Location is not Availeble",
+                    message: "To give permission Go to: Settings -> MyPlaces -> Location")
+            }
             break
         case .notDetermined:         // статус не определен, возвращается, если пользователь еще не сделал выбор
             locationManager.requestWhenInUseAuthorization() // запрашиваем разрешение и объясняем зачем
@@ -105,6 +129,16 @@ class MapViewController: UIViewController {
         @unknown default:
             print("New case is available")
         }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        
+        alert.addAction(okAction)
+        present(alert, animated: true)
+        
     }
     
 }
