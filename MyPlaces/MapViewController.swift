@@ -21,29 +21,41 @@ class MapViewController: UIViewController {
     
     let regionInMeters = 10_000.00
     
+    var incomSegueIdentifier = ""
+    
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapPinImage: UIImageView!
+    @IBOutlet weak var adressLabel: UILabel!
+    @IBOutlet weak var doneButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        setupPlacemark()
+        setupMapView()
         checkLocationServices()
     }
     
     @IBAction func centerViewInUserLocation() {
         
-        // пытаемся рпределить координаты пользовтеля
-        if let location = locationManager.location?.coordinate {
-            let region = MKCoordinateRegion(center: location,
-                                            latitudinalMeters: regionInMeters,
-                                            longitudinalMeters: regionInMeters)
-            mapView.setRegion(region, animated: true)
-        }
+        showUserLocation()
         
+    }
+    
+    @IBAction func doneButtonPressed() {
     }
     
     @IBAction func closeVC(_ sender: Any) {
         dismiss(animated: true)
+    }
+    
+    private func setupMapView() {
+        
+        if incomSegueIdentifier == "showPlace" {
+            setupPlacemark()
+            mapPinImage.isHidden = true
+            adressLabel.isHidden = true
+            doneButton.isHidden = true
+        }
     }
     
     private func setupPlacemark() {
@@ -109,6 +121,7 @@ class MapViewController: UIViewController {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:   // разрешено определять геолокацию в момент его использования
             mapView.showsUserLocation = true
+            if incomSegueIdentifier == "getAdress" { showUserLocation() }
             break
         case .denied:                // отказано использовать службы геолокации
             // Show alert controller
@@ -129,6 +142,18 @@ class MapViewController: UIViewController {
         @unknown default:
             print("New case is available")
         }
+    }
+    
+    private func showUserLocation() {
+        
+        // пытаемся рпределить координаты пользовтеля
+        if let location = locationManager.location?.coordinate {
+            let region = MKCoordinateRegion(center: location,
+                                            latitudinalMeters: regionInMeters,
+                                            longitudinalMeters: regionInMeters)
+            mapView.setRegion(region, animated: true)
+        }
+        
     }
     
     private func showAlert(title: String, message: String) {
