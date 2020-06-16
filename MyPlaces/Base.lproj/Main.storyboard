@@ -282,6 +282,17 @@
                                     <action selector="centerViewInUserLocation" destination="Qhn-fm-fZe" eventType="touchUpInside" id="wvo-2J-N0X"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rY8-jJ-WI5">
+                                <rect key="frame" x="182" y="772" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="HqL-Er-dVp"/>
+                                    <constraint firstAttribute="height" constant="50" id="qUX-IF-kGO"/>
+                                </constraints>
+                                <state key="normal" image="GetDirection"/>
+                                <connections>
+                                    <action selector="goButtonPressed:" destination="Qhn-fm-fZe" eventType="touchUpInside" id="4lg-am-qKw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -289,6 +300,8 @@
                             <constraint firstItem="mFY-q5-QEk" firstAttribute="trailing" secondItem="HB0-fa-5eH" secondAttribute="trailing" constant="26" id="5gF-8k-kZp"/>
                             <constraint firstItem="mFY-q5-QEk" firstAttribute="bottom" secondItem="HB0-fa-5eH" secondAttribute="bottom" constant="130" id="7z1-9y-SbK"/>
                             <constraint firstItem="vG9-5f-JGq" firstAttribute="top" secondItem="mFY-q5-QEk" secondAttribute="top" constant="40" id="8dI-Ei-F8D"/>
+                            <constraint firstItem="rY8-jJ-WI5" firstAttribute="centerX" secondItem="78H-dw-dHm" secondAttribute="centerX" id="9Cd-ZR-8nT"/>
+                            <constraint firstItem="mFY-q5-QEk" firstAttribute="bottom" secondItem="rY8-jJ-WI5" secondAttribute="bottom" constant="40" id="Fa2-qC-Sdu"/>
                             <constraint firstItem="k9P-Yn-fis" firstAttribute="top" secondItem="78H-dw-dHm" secondAttribute="top" id="NSm-rs-lS4"/>
                             <constraint firstItem="dAi-29-4M8" firstAttribute="centerY" secondItem="78H-dw-dHm" secondAttribute="centerY" constant="-20" id="agt-LM-Tc6"/>
                             <constraint firstAttribute="bottom" secondItem="k9P-Yn-fis" secondAttribute="bottom" id="aie-jt-aw1"/>
@@ -306,6 +319,7 @@
                     <connections>
                         <outlet property="addressLabel" destination="fzy-ND-5fM" id="vPE-Vo-IrA"/>
                         <outlet property="doneButton" destination="rod-dV-Ffx" id="4aF-PP-zJu"/>
+                        <outlet property="goButton" destination="rY8-jJ-WI5" id="fom-n4-Unk"/>
                         <outlet property="mapPinImage" destination="dAi-29-4M8" id="kwx-nf-Zx7"/>
                         <outlet property="mapView" destination="k9P-Yn-fis" id="kR4-90-xYu"/>
                     </connections>
@@ -490,6 +504,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="AZ" width="25" height="24"/>
+        <image name="GetDirection" width="50" height="50"/>
         <image name="Location" width="128" height="128"/>
         <image name="Photo" width="195" height="196"/>
         <image name="Pin" width="42" height="42"/>
