@@ -10,8 +10,13 @@ import UIKit
 import MapKit
 import CoreLocation
 
+protocol MapViewControllerDelegate {
+    func getAddress(_ address: String?)
+}
+
 class MapViewController: UIViewController {
     
+    var mapViewControllerDelegate: MapViewControllerDelegate?
     var place = Place()
     let annotationIdentifier = "annotationIdentifier"
     
@@ -25,13 +30,13 @@ class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var mapPinImage: UIImageView!
-    @IBOutlet weak var adressLabel: UILabel!
+    @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var doneButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        adressLabel.text = ""
+        addressLabel.text = ""
         mapView.delegate = self
         setupMapView()
         checkLocationServices()
@@ -44,6 +49,8 @@ class MapViewController: UIViewController {
     }
     
     @IBAction func doneButtonPressed() {
+        mapViewControllerDelegate?.getAddress(addressLabel.text)
+        dismiss(animated: true)
     }
     
     @IBAction func closeVC(_ sender: Any) {
@@ -55,7 +62,7 @@ class MapViewController: UIViewController {
         if incomSegueIdentifier == "showPlace" {
             setupPlacemark()
             mapPinImage.isHidden = true
-            adressLabel.isHidden = true
+            addressLabel.isHidden = true
             doneButton.isHidden = true
         }
     }
@@ -123,7 +130,7 @@ class MapViewController: UIViewController {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:   // разрешено определять геолокацию в момент его использования
             mapView.showsUserLocation = true
-            if incomSegueIdentifier == "getAdress" { showUserLocation() }
+            if incomSegueIdentifier == "getAddress" { showUserLocation() }
             break
         case .denied:                // отказано использовать службы геолокации
             // Show alert controller
@@ -232,11 +239,11 @@ extension MapViewController: MKMapViewDelegate {
             DispatchQueue.main.async {
                 
                 if streetName != nil && buildNumber != nil {
-                    self.adressLabel.text = "\(streetName!), \(buildNumber!)"
+                    self.addressLabel.text = "\(streetName!), \(buildNumber!)"
                 } else if streetName != nil {
-                    self.adressLabel.text = "\(streetName!)"
+                    self.addressLabel.text = "\(streetName!)"
                 } else {
-                    self.adressLabel.text = ""
+                    self.addressLabel.text = ""
                 }
             }
         }

@@ -121,7 +121,7 @@
                                                     </constraints>
                                                     <state key="normal" image="Placeholder"/>
                                                     <connections>
-                                                        <segue destination="Qhn-fm-fZe" kind="presentation" identifier="getAdress" id="VrO-bg-Kos"/>
+                                                        <segue destination="Qhn-fm-fZe" kind="presentation" identifier="getAddress" id="VrO-bg-Kos"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -304,7 +304,7 @@
                         <viewLayoutGuide key="safeArea" id="mFY-q5-QEk"/>
                     </view>
                     <connections>
-                        <outlet property="adressLabel" destination="fzy-ND-5fM" id="vPE-Vo-IrA"/>
+                        <outlet property="addressLabel" destination="fzy-ND-5fM" id="vPE-Vo-IrA"/>
                         <outlet property="doneButton" destination="rod-dV-Ffx" id="4aF-PP-zJu"/>
                         <outlet property="mapPinImage" destination="dAi-29-4M8" id="kwx-nf-Zx7"/>
                         <outlet property="mapView" destination="k9P-Yn-fis" id="kR4-90-xYu"/>
@@ -485,7 +485,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="1KE-QZ-Y8K"/>
+        <segue reference="VrO-bg-Kos"/>
         <segue reference="sUg-up-iNZ"/>
     </inferredMetricsTieBreakers>
     <resources>
