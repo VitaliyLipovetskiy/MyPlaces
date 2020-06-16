@@ -30,6 +30,8 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        adressLabel.text = ""
         mapView.delegate = self
         setupMapView()
         checkLocationServices()
@@ -156,6 +158,15 @@ class MapViewController: UIViewController {
         
     }
     
+    // метод для определения координат в центре экрана
+    private func getCenterLocation(for mapView: MKMapView ) -> CLLocation {
+        // надо знать широту и долготу
+        let latitude = mapView.centerCoordinate.latitude
+        let longitude = mapView.centerCoordinate.longitude
+        
+        return CLLocation(latitude: latitude, longitude: longitude)
+    }
+    
     private func showAlert(title: String, message: String) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -197,6 +208,40 @@ extension MapViewController: MKMapViewDelegate {
         
     }
     
+    // выполняется каждый раз при смене отображаемого на карте региона
+    // в нем будем отображать адрес, который находится в центре региона
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        
+        let center = getCenterLocation(for: mapView)
+        // вызываем метод отвечающий за преобразование географических координат и названий
+        let geocoder = CLGeocoder()
+        // преобразуем координаты в название
+        geocoder.reverseGeocodeLocation(center) { (placemarks, error) in
+            
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let placemarks = placemarks else { return }
+            
+            let placemark = placemarks.first
+            let streetName = placemark?.thoroughfare
+            let buildNumber = placemark?.subThoroughfare
+            
+            DispatchQueue.main.async {
+                
+                if streetName != nil && buildNumber != nil {
+                    self.adressLabel.text = "\(streetName!), \(buildNumber!)"
+                } else if streetName != nil {
+                    self.adressLabel.text = "\(streetName!)"
+                } else {
+                    self.adressLabel.text = ""
+                }
+            }
+        }
+    }
+
 }
 
 extension MapViewController: CLLocationManagerDelegate {   // для отслеживания в реальном времени статуса разрешения для служб геолокации
